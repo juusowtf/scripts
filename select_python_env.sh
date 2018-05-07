@@ -1,7 +1,8 @@
 #!/bin/bash
 
-VIRTUALENV_DIR=./.venv/
-ENV_NAME=$(basename $1)
+VIRTUALENV_DIR=./.venv
+ARG_DIR="${1:-$(pwd)/..}"
+ENV_NAME=$(basename "$(dirname $ARG_DIR)")
 
 source_env() {
   source $VIRTUALENV_DIR/bin/activate
@@ -13,6 +14,6 @@ if [[ -f $VIRTUALENV_DIR/bin/activate ]]; then
 else
   echo "No valid environment $ENV_NAME found."
   echo "Creating.."
-  virtualenv -p $(which python3.6) .venv/ --prompt='($ENV_NAME)'
+  virtualenv -p $(which python3.6) $VIRTUALENV_DIR/ --prompt="($ENV_NAME)"
   source_env
 fi
